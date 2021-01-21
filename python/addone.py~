@@ -1,0 +1,30 @@
+def addone(numbers):
+        carry=False
+        add=False
+        digit=False
+        for element in numbers:
+            if element==0 and digit==False:
+                numbers.remove(element)
+            else :
+                digit=True
+                break
+        numbers.reverse()
+        #print(numbers,len(numbers))
+        for index in range(0,len(numbers)):
+            #print(index)
+            if add==True and carry==False:
+                break
+            elif numbers[index]==9 and (add==False or carry==True):
+                numbers[index]=0
+                carry=True
+            else:
+                numbers[index]+=1
+                carry=False
+                add=True
+        if add==False:
+            numbers.append(1)
+        numbers.reverse()
+        return numbers
+numbers=input()
+numbers=numbers.strip().split(" ")
+print(addone())

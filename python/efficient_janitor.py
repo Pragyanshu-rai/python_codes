@@ -12,25 +12,30 @@ weights.sort()
 j=len(weights)-1
 i=0
 done=0
-#print(weights)
+#print(len(weights))
 while done < len(weights):
-    #print(i,j)
-    if i==j:
+    if i == len(weights):
+        break
+    if weights[i] == 7:
+        i+=1
+    elif i==j:
         trips+=1
         done+=1
         i+=1
         weights[i]=7
         j=len(weights)-1
     elif done == len(weights)-1:
-        #print(done,"alone element")
+        print("alone element")        
+        weights[i] = 7
         done+=1
         trips+=1
         j+=1
     elif weights[i] > 1.5:
+        weights[i] = 7
         i+=1
         trips+=1
         done+=1
-        #print("Greater tha 1.5")
+        print("Greater than 1.5",weights[i])
         continue
     elif weights[i]+weights[j] <= 3.00:
         weights[i]=7
@@ -38,6 +43,7 @@ while done < len(weights):
         trips+=1
         i+=1
         done+=2
-        #print("sum < 3",weights)
+        print("sum < 3",weights)
+    print(weights[i],weights[j],i,j)
     j-=1
-print(trips)
+print(weights,trips)

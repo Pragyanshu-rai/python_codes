@@ -1,0 +1,20 @@
+{% extends 'base.htm' %} <!--django tag-->
+
+{% block content %}   
+    <h1>{{name}} chutiya hai!!!</h1>
+    <br />
+    <input type = 'button' value = '{{name}}' />
+    <h1>SUM</h1>
+    <form action = "add" method = 'post'>
+
+        {% csrf_token %}<!-- must be used when using post method -->
+    
+        Enter The first number <input type = 'text' name = 'first_number' />
+        <br />
+        <br />
+        Enter The second number <input type = 'text' name = 'second_number' />
+        <br />
+        <br />
+        <input type = 'submit' value = 'ADD'>
+    </form>
+{% endblock%}

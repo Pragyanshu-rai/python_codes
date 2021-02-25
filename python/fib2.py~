@@ -1,0 +1,10 @@
+import sys
+number  = int(input())
+array=list()
+array.append(0)
+array.append(1)
+if number >1000:
+    sys.exit();
+for num in range(2, number+1):
+    array.append(array[num-1]+array[num-2])
+print(array[number]%10)

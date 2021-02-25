@@ -1,0 +1,5 @@
+a-Hello, b-World, c-Buddy
+a and (c or d)
+a-Hello, c-Buddy, d-Welcome
+a and (b or c) and d
+

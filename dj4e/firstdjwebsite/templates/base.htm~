@@ -1,8 +1,8 @@
 <html>
     <head>
-        <title>{{name}} chutiya</title>
+        <title>{{name}}</title>
     </head>
-    <body bgcolor='dodgerblue'>
+    <body style = "background:AliceBlue">
     {% block content %}
     
     {% endblock %}

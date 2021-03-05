@@ -1,7 +1,7 @@
 {% extends 'base.htm' %} <!--django tag-->
 
 {% block content %}   
-    <h1>{{name}} chutiya hai!!!</h1>
+    <h1>{{char_name}} {{msg}}!!!</h1>
     <br />
     <input type = 'button' value = '{{name}}' />
     <h1>SUM</h1>
@@ -17,4 +17,5 @@
         <br />
         <input type = 'submit' value = 'ADD'>
     </form>
+    <button > <a style="text-decoration:none" href = "{% url 'firstsite:music' %}" > Music Page </a> </button>
 {% endblock%}

@@ -1,0 +1,20 @@
+{% extends 'base.htm' %}
+
+{% block content %}
+    
+
+    {% if all_albums %}
+
+        <h1> {{heading}} </h1>
+    
+        <ol>
+            {% for album in all_albums %}
+            <li> <a href = '{% url "firstsite:album" album.id %}' style="text-decoration:none"> {{album.album_title}} </a> </li><br />
+            {% endfor %}    
+        </ol>
+    
+    {% else %}
+        <h1> {{msg}} </h1>
+    {% endif %}
+
+{% endblock %}

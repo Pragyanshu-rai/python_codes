@@ -1,14 +1,44 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+
+from .models import Album
 
 # Create your views here.
 
 def index(request):
     #return HttpResponse('<h1>shipra chutiya<h1>') #for strings we use httpresponse
-    replace = {'name':'Anish', 'msg':'bhai hai!!'}
+    replace = {'page_name':'Index page', 'msg':'bhai hai!!', 'char_page_name':'Sahil'}
     return render(request, 'index.html', replace) #for files containg html code etc
 
 def add(request):
     result = int(request.POST['first_number'])+int(request.POST['second_number'])
     return render(request, 'result.htm', {'result':result})
+
+def music(request):
+    album_page = "<title> album page</title><h1> Albums </h1>"
+    all_albums = Album.objects.all()
+    for album in all_albums:
+        album_link = '/' + str(album.id) + '/'
+        #album_page += '<a href=' + album_link + '>' + str(album.album_title) + '</a><br />'
+    parameters = {
+        'all_albums':all_albums,
+        'heading':'Album List',
+        'page_name':'Album list page',
+        'msg':'Nothing in the list'     
+    }
+    return render(request, 'music.html', parameters)
+
+def albums(request, album_id):
+
+    #try:
+    #    album = .objects.get(pk=album_id)
+    #except:
+    #    raise Http404("File Does Not Exist!!!") # to raise a 404 error if an album is not found 
+    
+    # instead of using try and except you can also use the method get_object_or_404 
+    
+    album = get_object_or_404(Album, pk=album_id)
+    return render(request, 'details.html', {'album':album, 'all_songs':album.song_set.all(), 'page_name':'Song page'})
+
+

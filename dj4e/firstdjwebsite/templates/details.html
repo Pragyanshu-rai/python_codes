@@ -1,0 +1,60 @@
+{% extends 'base.htm' %}
+
+{% block content %}
+
+    <title> {{ page_name }} </title>
+    
+    <h1> {{album.album_title}} </h1>
+    <h3> Album artist: {{album.artist}} </h3>
+    <h3> Album genre: {{album.genre}} </h3>
+    <h3> Total songs: {{album.total_songs}} </h3>
+    <!-- page styling -->
+    <style>
+        #song_table table{
+            width : 50%;       
+        }
+        #song_table th{
+            background : #000000;
+            color : #ffffff;         
+        }
+        #song_table tr:nth-child(odd){
+            background : #cccccc;        
+        }
+        #song_table table, td, th{
+            border : 2px solid #a1a1a1;
+            border-collapse : collapse;        
+        }
+        #song_table td, th{
+            padding : 5px;
+            text-align: center;
+        }
+    </style>
+    
+    {% if album.total_songs > 0 %}
+    <div id="song_table" >
+            <table>
+                <tr>
+                    <th>  Id </th>
+                    <th> Title </th>
+                    <th> File Type </th>
+                </tr>
+            {% for song in all_songs %}
+                <tr style="text-align:center">    
+                    <td> {{forloop.counter}} </td>
+                    <td> {{song.song_title}} </td>
+                    <td> {{song.file_type}} </td>
+                </tr>
+            {% endfor %}    
+        
+            </table>
+            
+            <br />
+    </div>
+    {% else %}
+        
+        <h3> No Songs In The DataBase </h3>
+    
+    {% endif %}
+
+{% endblock%}
+

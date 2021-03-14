@@ -1,0 +1,36 @@
+
+
+def sortsubarray(start, end):
+    
+    while end>0:
+        
+        max_el=max(array[start:end+1])
+        
+        if max_el != array[end] :
+            break;
+        
+        end-=1
+    
+    while start < end :
+        
+        min_el=min(array[start:end+1])
+        
+        if min_el != array[start] :
+            break;
+        
+        start+=1
+    
+    if end == 0:
+        return -1
+    
+    return [start, end]
+
+
+array=list(map(int, input().split()))
+
+start=0;
+
+end=len(array)-1
+
+print(sortsubarray(start, end))
+

@@ -1,0 +1,16 @@
+from django.contrib import admin
+from django.urls import path
+from . import views
+from rest_framework.authtoken.views import obtain_auth_token
+
+urlpatterns = [
+    path('', views.none, name="none"),
+    path('student_create/', views.student_create, name="student_create"),
+    path('student_data/', views.students, name="students"),
+    #path('studentapi/', views.studentapi, name="studentapi"), #function based view
+    path('studentapi/', views.StudentAPI.as_view(), name="studentapi"), #class based view
+    path('student_data/<int:pk>', views.student_detail, name="student_detail"),
+    path('get-token/', obtain_auth_token),
+    path('api-signup/', views.apisignup.as_view(), name="apisignup"),
+    path('studentapiauth/', views.StudentAPI_Auth.as_view(), name="studentapiauth"),
+]

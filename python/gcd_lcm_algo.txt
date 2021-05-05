@@ -1,0 +1,21 @@
+for gcd:
+
+The GCD fucntion follows Euclidean Algorithm to find the gcd by performing the following operations-
+If A > B then GCD(remainder of A/B, B)
+If A <= B then GCD(A, remainder of B/A)
+If A = 0 then GCD(A,B)=B, since the GCD(0,B)=B, and we can stop. 
+If B = 0 then GCD(A,B)=A, since the GCD(A,0)=A, and we can stop.
+
+The function "gcd(a, b)" is recursive as it will not stop till one of its argument becomes zero inorder to find the gcd.
+
+for lcm:
+
+The Product of any two numbers is always equal to the product of its LCM and GCD(HCF)gcd.
+
+AxB = lcm(A, B)xgcd(A, B)
+
+so inorder to find the lcm we divide the product of the numbers with its gcd.
+
+lcm(A, B) = (AxB)/gcd(A, B)
+
+So the lcm function returns the product of the numbers divided by their gcd using the gcd function.

@@ -39,7 +39,7 @@ def getdata():
 def postdata():
     
     token = input("Enter Authentication token: ")
-    data = {'name':'Priya', 'roll':22, 'branch':'BA-LLB', 'section':'L2', 'year':'V'}
+    data = {'name':'Priya', 'roll':6, 'branch':'LLB', 'section':'L1', 'year':'V'}
     data = json.dumps(data)
     header = {"Authorization":"Token "+token}
     print(type(data), data)

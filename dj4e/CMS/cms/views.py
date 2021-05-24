@@ -30,6 +30,9 @@ stuff['change'] = False
 
 stuff['slots'] = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM']
 
+def error(request, path):
+    return render(request, 'cms/forbid.html');
+
 def home(request):   
     
     global stuff 

@@ -1,12 +1,13 @@
 from django.contrib import admin
 
 from django.urls import path
+from django.urls.conf import re_path
 
 from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('CMS/', views.home, name='home'),
+    # path('CMS/', views.home, name='home'),
     path('profile/', views.profile, name='profile'),
     path('aboutme/', views.aboutme, name='aboutme'),
     path('dashboard/', views.dashboard, name='dashboard'),
@@ -22,4 +23,8 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
+]
+
+urlpatterns += [
+    re_path(r'(?P<path>.*)', views.error, name="error")
 ]

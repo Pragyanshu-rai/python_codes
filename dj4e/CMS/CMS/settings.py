@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework', 
+    'rest_framework',
+    'cms_api.apps.CmsApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -132,4 +133,3 @@ STATICFILES_DIRS = [
 STATIC_ROOT = path.join(BASE_DIR, 'all_static')
 
 MEDIA_ROOT = path.join(BASE_DIR, 'static/cms/media')
-

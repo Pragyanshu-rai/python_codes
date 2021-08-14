@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from cms import views as cms_views
 from django.contrib import admin
 
 from django.urls import path, include
@@ -20,10 +21,17 @@ from django.urls import path, include
 from django.conf import settings
 
 from django.conf.urls.static import static
+from django.urls.conf import re_path
 
 urlpatterns = [
-    path('', include('cms.urls')),
     path('admin/', admin.site.urls),
+    path('cms/', include('cms.urls')),
+    path('cms-api/', include('cms_api.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# must change the view which must be called
+urlpatterns += [
+    re_path(r'(?P<path>.*)', cms_views.error)
+]

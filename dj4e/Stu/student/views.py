@@ -31,8 +31,8 @@ def student_create(request):
         serialized = StudentSerializer(data=python_data)
         if serialized.is_valid():
             serialized.save()
-            res = {'msg':"Data saved"}
-            print(res['msg'])
+            res = {'MSG':"Data saved"}
+            print(res['MSG'])
             res = JSONRenderer().render(res)
             return HttpResponse(res, content_type="application/json")
         print("serialize.errors-", serialized.errors)
@@ -84,7 +84,7 @@ class StudentAPI(View):
         ser = StudentSerializer(data = python_data)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Data Saved!"}
+            res = {"MSG":"Data Saved!"}
             print("res:", res)
             return JsonResponse(res, safe=False)
         return JsonResponse(res, safe=False)
@@ -97,7 +97,7 @@ class StudentAPI(View):
         ser = StudentSerializer(st, data=python_data)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Data Updated!"}
+            res = {"MSG":"Data Updated!"}
             return JsonResponse(res, safe=False)
         return JsonResponse(ser.errors, safe=False)
     
@@ -109,7 +109,7 @@ class StudentAPI(View):
         ser = StudentSerializer(st, data=python_data, partial=True)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Partial Data Updated!"}
+            res = {"MSG":"Partial Data Updated!"}
             return JsonResponse(res, safe=False)
         return JsonResponse(ser.errors, safe=False)
     
@@ -119,25 +119,31 @@ class StudentAPI(View):
         print("python_data:",python_data)
         st = Student.objects.get(id=python_data["id"])
         st.delete()
-        res = {"msg":"Data Deleted!"}
+        res = {"MSG":"Data Deleted!"}
         return JsonResponse(res, safe=False)
 
 @method_decorator(csrf_exempt, name="dispatch")
 class apisignup(View):
     
     def post(self, request):
-        
-        stream = BytesIO(request.body)
-        python_data = JSONParser().parse(stream)
-        print(python_data)
-        
-        if User.objects.filter(username=python_data['username']).exists():
-            res = {"msg":"User Exists!"}
-            return JsonResponse(res, safe=False)
-        
-        user = User.objects.create_user(username = python_data['username'], password = python_data['password'])
-        user.save()
-        res = {"msg":"User Registered!"}
+
+        try:
+            
+            print("Data recieved:- \n"+str(request.body)+"\n")
+
+            stream = BytesIO(request.body)
+            python_data = JSONParser().parse(stream)
+            print(python_data)
+            if User.objects.filter(username=python_data['username']).exists():
+                res = {"WRN":"User Exists!"}
+                return JsonResponse(res, safe=False)
+
+            user = User.objects.create_user(username = python_data['username'], password = python_data['password'])
+            user.save()
+            res = {"MSG":"User Registered!"}
+        except:
+            print("Internal Server Error!")
+            res = {"ERR":"Internal Server Error!"}
         return JsonResponse(res, safe=False)
     
 @method_decorator(csrf_exempt, name="dispatch")
@@ -146,6 +152,8 @@ class StudentAPI_Auth(APIView):# view class must inherit from APIView class in o
     authentication_classes = [TokenAuthentication]
     #permission_classes = [IsAuthenticated] # must be authenticated for all operations
     permission_classes = [IsAuthenticatedOrReadOnly] # must be authenticated for all operations but read
+    
+    new_data = [{"MSG":None, "DATA":None}]
     
     def get(self, request):
         stream = BytesIO(request.body)
@@ -159,7 +167,7 @@ class StudentAPI_Auth(APIView):# view class must inherit from APIView class in o
                 print(ser.data)
                 return JsonResponse(ser.data, safe=False)
             except:
-                return JsonResponse({"msg":"No such Data Exists!"}, safe=False)
+                return JsonResponse({"MSG":"No such Data Exists!"}, safe=False)
         st = Student.objects.all()
         ser = StudentSerializer(st, many=True)
         print(ser.data)
@@ -172,20 +180,25 @@ class StudentAPI_Auth(APIView):# view class must inherit from APIView class in o
         ser = StudentSerializer(data = python_data)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Data Saved!"}
+            new_data = [{"MSG":"Data Saved", "Data": python_data}]
+            res = new_data
             print("res:", res)
             return JsonResponse(res, safe=False)
-        return JsonResponse(res, safe=False)
+        return JsonResponse(ser.errors, safe=False)
     
     def put(self, request):
         stream = BytesIO(request.body)
         python_data = JSONParser().parse(stream)
         print("python_data:",python_data)
-        st = Student.objects.get(id=python_data["id"])
+        try:
+            st = Student.objects.get(id=python_data["id"])
+        except Exception as argument:
+            return JsonResponse({"ERR":str(argument)+"!"}, safe=False)
         ser = StudentSerializer(st, data=python_data)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Data Updated!"}
+            new_data = [{"MSG":"Data Updated Successfully", "Data": st.str_dict()}]
+            res = new_data
             return JsonResponse(res, safe=False)
         return JsonResponse(ser.errors, safe=False)
     
@@ -193,11 +206,15 @@ class StudentAPI_Auth(APIView):# view class must inherit from APIView class in o
         stream = BytesIO(request.body)
         python_data = JSONParser().parse(stream)
         print("python_data:",python_data)
-        st = Student.objects.get(id=python_data["id"])
+        try:
+            st = Student.objects.get(id=python_data["id"])
+        except Exception as argument:
+            return JsonResponse({"ERR":str(argument)+"!"}, safe=False)
         ser = StudentSerializer(st, data=python_data, partial=True)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Partial Data Updated!"}
+            new_data = [{"MSG":"Data Updated Successfully", "Data": st.str_dict()}]
+            res = new_data
             return JsonResponse(res, safe=False)
         return JsonResponse(ser.errors, safe=False)
     
@@ -207,11 +224,14 @@ class StudentAPI_Auth(APIView):# view class must inherit from APIView class in o
         print("python_data:",python_data)
         try:
             st = Student.objects.get(id=python_data["id"])
+            print(st.str_dict())
+            new_data = [{"MSG":"Data Deleted Successfully", "Data": st.str_dict()}]
             st.delete()
-        except:
-            res = {"msg":"Data Does Not Exist!"}
+        except Exception as Argument:
+            print(Argument)
+            res = {"MSG":"Data Does Not Exist!"}
             return JsonResponse(res, safe=False)
-        res = {"msg":"Data Deleted!"}
+        res = new_data
         return JsonResponse(res, safe=False)
 
 """
@@ -242,7 +262,7 @@ def studentapi(request):
         ser = StudentSerializer(data = python_data)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Data Saved!"}
+            res = {"MSG":"Data Saved!"}
             print("res:", res)
             return JsonResponse(res, safe=False)
         return JsonResponse(res, safe=False)
@@ -255,7 +275,7 @@ def studentapi(request):
         ser = StudentSerializer(st, data=python_data)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Data Updated!"}
+            res = {"MSG":"Data Updated!"}
             return JsonResponse(res, safe=False)
         return JsonResponse(ser.errors, safe=False)
     
@@ -267,7 +287,7 @@ def studentapi(request):
         ser = StudentSerializer(st, data=python_data, partial=True)
         if ser.is_valid():
             ser.save()
-            res = {"msg":"Partial Data Updated!"}
+            res = {"MSG":"Partial Data Updated!"}
             return JsonResponse(res, safe=False)
         return JsonResponse(ser.errors, safe=False)
     
@@ -277,7 +297,7 @@ def studentapi(request):
         print("python_data:",python_data)
         st = Student.objects.get(id=python_data["id"])
         st.delete()
-        res = {"msg":"Data Deleted!"}
+        res = {"MSG":"Data Deleted!"}
         return JsonResponse(res, safe=False)
     
     return redirect('students')

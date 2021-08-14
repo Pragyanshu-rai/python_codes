@@ -25,6 +25,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
 ]
 
+# this regex will match any url pattern and then render the 404 page.
 urlpatterns += [
     re_path(r'(?P<path>.*)', views.error, name="error")
 ]

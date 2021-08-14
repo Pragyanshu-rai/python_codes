@@ -71,19 +71,22 @@ password = input("Enter Password : ")
 if len(password) < 1:
     password = "Sahil"
 
-option = int(input("1- login\n2- signup\n3- get data\n4- post data\n5- delete data\n> "))
+option = input("1- login\n2- signup\n3- get data\n4- post data\n5- delete data\n> ")
 
 data = json.dumps({'username':username, 'password':password})
 
 print("data:- ", data)
 
-if option == 1:
+if len(option) < 1:
+    option = '1'
+
+if option == '1':
     login(data)
-elif option == 2:
+elif option == '2':
     signup(data)
-elif option == 3:
+elif option == '3':
     getdata()
-elif option == 4:
+elif option == '4':
     postdata()
 else:
     deletedata()

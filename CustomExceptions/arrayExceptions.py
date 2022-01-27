@@ -1,0 +1,2 @@
+class arrayInvalidSize(Exception):
+    pass

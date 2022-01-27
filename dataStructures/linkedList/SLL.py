@@ -1,4 +1,4 @@
-from linkedListUtil import LinkedList
+from .linkedListUtil import LinkedList
 
 
 ll = LinkedList()

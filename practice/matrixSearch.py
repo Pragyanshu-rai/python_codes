@@ -1,4 +1,4 @@
-from timer import getExecTime
+from Timers.timer import getExecTime
 
 @getExecTime
 def matrixSearch(matrix: list, target: int = 5) -> bool:

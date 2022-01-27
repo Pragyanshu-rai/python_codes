@@ -1,4 +1,4 @@
-from timer import getExecTime
+from Timers.timer import getExecTime
 
 @getExecTime
 def longestArithmeticSubarray(array: list = [10, 7, 4, 6, 8, 10, 11]) -> int:

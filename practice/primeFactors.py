@@ -1,4 +1,4 @@
-from timer import getExecTime
+from Timers.timer import getExecTime
 
 
 def getSmallestPrimeFactor(limit: int = 50) -> dict:
@@ -21,10 +21,11 @@ def getSmallestPrimeFactor(limit: int = 50) -> dict:
             for num in range(number*number, limit+1, number):
                 smallestPrimeFactors[num] = number
     
-    for key, value in smallestPrimeFactors.items():
+    # spf => smallest prime factor
+    for number, spf in smallestPrimeFactors.items():
 
-        if value == -1:
-            smallestPrimeFactors[key] = key
+        if spf == -1:
+            smallestPrimeFactors[number] = number
 
     return smallestPrimeFactors
 
@@ -35,7 +36,7 @@ def getPrimeFactors(target: int = 31) -> list:
         returns a list of prime factors of the target number
     """
 
-    SPF = getSmallestPrimeFactor()
+    SPF = getSmallestPrimeFactor(target)
     primeFactors = list()
 
     while target > 1:
@@ -48,5 +49,6 @@ def getPrimeFactors(target: int = 31) -> list:
 
 if __name__ == "__main__":
     print(getPrimeFactors())
+    print(getPrimeFactors(0))
     print(getPrimeFactors(20))
     print(getSmallestPrimeFactor())

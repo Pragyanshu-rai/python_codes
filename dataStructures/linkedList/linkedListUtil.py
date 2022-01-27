@@ -26,28 +26,43 @@ class LinkedList():
 
     head = None
 
-    def add(self, data: int, begin: bool = True):
+    def __init__(self, array: list = [], reverse = False) -> None:
         """
-            returns the head node after inserting a node in the end or begining
+            initializes the LinkedList object
+        """
+
+        if reverse: 
+            array = array[::-1]
+
+        for data in array:
+            self.add(data, False)
+
+
+    def add(self, data: int, begin: bool = True) -> Node:
+        """
+            returns the head node after inserting a node in the end or begining depending on the begin flag
         """
 
         head = self.head
 
         if head is None:
             self.head = Node(data=data)
-
+            return self.head
+        
         # if data is to be inserted in the end
         if begin == False:
 
             while head.next is not None:
                 head = head.next
-                print(head.data)
 
             head.next = Node(data=data, next=None)
 
         # if the data is to be inserted in the begining
         else:
-            self.head = Node(data=data, next=head)
+            head = head.next
+            head = Node(data=data, next=head)
+        
+        return self.head
 
 
     def addMid(self, data: int) -> Node:
@@ -82,6 +97,9 @@ class LinkedList():
 
         self.head = newhead
 
+        return self.head
+
+
     def display(self) -> None:
         """
             diplays the nodes of the linked list
@@ -101,24 +119,29 @@ class LinkedList():
             print(head.data)
 
 
-
-    def delete(head: Node, begin: bool = True) -> Node:
+    def delete(self, begin: bool = True) -> Node:
         """
             returns the head node after deleting a node in the end or begining
         """
 
-        newHead = head
+        newHead = self.head
 
-        if head is not None:
+        if self.head is not None:
 
             if begin:
-                newHead = head.next
+                self.head = newHead.next
 
             else:
 
-                while head.next.next is not None:
-                    head = head.next
+                while newHead.next.next is not None:
+                    newHead = newHead.next
 
-                head.next = None
+                newHead.next = None
 
-        return newHead
+        return self.head
+
+
+if __name__ == "__main__":
+
+    ll = LinkedList([10, 20, 30, 40, 50])
+    ll.display()

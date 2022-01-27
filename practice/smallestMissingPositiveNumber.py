@@ -1,4 +1,4 @@
-from timer import getExecTime
+from Timers.timer import getExecTime
 
 
 @getExecTime

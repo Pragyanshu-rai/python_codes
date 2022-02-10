@@ -1,2 +1,0 @@
-class arrayInvalidSize(Exception):
-    pass

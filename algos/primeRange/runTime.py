@@ -10,7 +10,7 @@ def getRunTime(function):
 
     def mainWrapper(*args, **kwargs):
         """
-            wrapper function used calculate the runtime and call the fuction passed 
+            wrapper function used calculate the runtime and call the function passed 
         """
 
         # get the start time
